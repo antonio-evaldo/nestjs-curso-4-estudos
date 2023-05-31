@@ -18,6 +18,7 @@ export class ProdutoService {
 
     produtoEntity.nome = dadosProduto.nome;
     produtoEntity.valor = dadosProduto.valor;
+    produtoEntity.usuarioId = dadosProduto.usuarioId;
     produtoEntity.quantidadeDisponivel = dadosProduto.quantidadeDisponivel;
     produtoEntity.descricao = dadosProduto.descricao;
     produtoEntity.categoria = dadosProduto.categoria;
