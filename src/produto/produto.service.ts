@@ -24,7 +24,7 @@ export class ProdutoService {
     produtoEntity.caracteristicas = dadosProduto.caracteristicas;
     produtoEntity.imagens = dadosProduto.imagens;
 
-    return await this.produtoRepository.save(produtoEntity);
+    return this.produtoRepository.save(produtoEntity);
   }
 
   async listProdutos() {
@@ -49,7 +49,7 @@ export class ProdutoService {
   async atualizaProduto(id: string, novosDados: AtualizaProdutoDTO) {
     const entityName = await this.produtoRepository.findOneBy({ id });
     Object.assign(entityName, novosDados);
-    await this.produtoRepository.save(entityName);
+    return this.produtoRepository.save(entityName);
   }
 
   async deletaProduto(id: string) {
