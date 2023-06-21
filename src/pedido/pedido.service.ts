@@ -106,7 +106,7 @@ export class PedidoService {
     const usuario = await this.usuarioRepository.findOneBy({ id: usuarioId });
 
     if (usuario === null) {
-      throw new NotFoundException('O usuário não foi encontrado.')
+      throw new NotFoundException('O usuário não foi encontrado.');
     }
 
     return this.pedidoRepository.find({
