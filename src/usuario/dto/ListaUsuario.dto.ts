@@ -1,3 +1,10 @@
+import { Exclude, Expose } from 'class-transformer';
+
+@Exclude()
 export class ListaUsuarioDTO {
-  constructor(readonly id: string, readonly nome: string) {}
+  @Expose()
+  id: string;
+
+  @Expose()
+  nome: string;
 }

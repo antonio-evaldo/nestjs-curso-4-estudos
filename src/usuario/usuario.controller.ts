@@ -6,7 +6,9 @@ import {
   Param,
   Post,
   Put,
+  UseInterceptors,
 } from '@nestjs/common';
+import { TransformaEntidadeParaDTO } from '../interceptores/transforma-entidade-para-dto.interceptor';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
 import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
@@ -17,16 +19,15 @@ export class UsuarioController {
   constructor(private usuarioService: UsuarioService) {}
 
   @Post()
+  @UseInterceptors(new TransformaEntidadeParaDTO(ListaUsuarioDTO))
   async criaUsuario(@Body() dadosDoUsuario: CriaUsuarioDTO) {
     const usuarioCriado = await this.usuarioService.criaUsuario(dadosDoUsuario);
 
-    return {
-      usuario: new ListaUsuarioDTO(usuarioCriado.id, usuarioCriado.nome),
-      messagem: 'usuário criado com sucesso',
-    };
+    return usuarioCriado;
   }
 
   @Get()
+  @UseInterceptors(new TransformaEntidadeParaDTO(ListaUsuarioDTO))
   async listUsuarios() {
     const usuariosSalvos = await this.usuarioService.listUsuarios();
 

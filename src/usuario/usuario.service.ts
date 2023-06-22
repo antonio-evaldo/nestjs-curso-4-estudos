@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
 import { UsuarioEntity } from './usuario.entity';
 import { Repository } from 'typeorm';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
@@ -23,10 +22,7 @@ export class UsuarioService {
 
   async listUsuarios() {
     const usuariosSalvos = await this.usuarioRepository.find();
-    const usuariosLista = usuariosSalvos.map(
-      (usuario) => new ListaUsuarioDTO(usuario.id, usuario.nome),
-    );
-    return usuariosLista;
+    return usuariosSalvos;
   }
 
   async buscaPorEmail(email: string) {
