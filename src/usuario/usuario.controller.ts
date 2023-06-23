@@ -12,6 +12,7 @@ import { TransformaEntidadeParaDTO } from '../interceptores/transforma-entidade-
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
 import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
+import { UsuarioEntity } from './usuario.entity';
 import { UsuarioService } from './usuario.service';
 
 @Controller('/usuarios')
@@ -20,7 +21,9 @@ export class UsuarioController {
 
   @Post()
   @UseInterceptors(new TransformaEntidadeParaDTO(ListaUsuarioDTO))
-  async criaUsuario(@Body() dadosDoUsuario: CriaUsuarioDTO) {
+  async criaUsuario(
+    @Body() dadosDoUsuario: CriaUsuarioDTO,
+  ): Promise<UsuarioEntity> {
     const usuarioCriado = await this.usuarioService.criaUsuario(dadosDoUsuario);
 
     return usuarioCriado;
@@ -28,7 +31,7 @@ export class UsuarioController {
 
   @Get()
   @UseInterceptors(new TransformaEntidadeParaDTO(ListaUsuarioDTO))
-  async listUsuarios() {
+  async listUsuarios(): Promise<UsuarioEntity[]> {
     const usuariosSalvos = await this.usuarioService.listUsuarios();
 
     return usuariosSalvos;
