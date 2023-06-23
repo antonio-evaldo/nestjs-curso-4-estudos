@@ -8,6 +8,7 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
+import { PersonalizaRetorno } from '../interceptores/personaliza-retorno.interceptor';
 import { TransformaEntidadeParaDTO } from '../interceptores/transforma-entidade-para-dto.interceptor';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
 import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
@@ -20,46 +21,40 @@ export class UsuarioController {
   constructor(private usuarioService: UsuarioService) {}
 
   @Post()
-  @UseInterceptors(new TransformaEntidadeParaDTO(ListaUsuarioDTO))
+  @UseInterceptors(
+    new PersonalizaRetorno('Usuário criado com sucesso.'),
+    new TransformaEntidadeParaDTO(ListaUsuarioDTO),
+  )
   async criaUsuario(
     @Body() dadosDoUsuario: CriaUsuarioDTO,
   ): Promise<UsuarioEntity> {
-    const usuarioCriado = await this.usuarioService.criaUsuario(dadosDoUsuario);
-
-    return usuarioCriado;
+    return this.usuarioService.criaUsuario(dadosDoUsuario);
   }
 
   @Get()
-  @UseInterceptors(new TransformaEntidadeParaDTO(ListaUsuarioDTO))
+  @UseInterceptors(
+    new PersonalizaRetorno(),
+    new TransformaEntidadeParaDTO(ListaUsuarioDTO),
+  )
   async listUsuarios(): Promise<UsuarioEntity[]> {
-    const usuariosSalvos = await this.usuarioService.listUsuarios();
-
-    return usuariosSalvos;
+    return this.usuarioService.listUsuarios();
   }
 
   @Put('/:id')
+  @UseInterceptors(
+    new PersonalizaRetorno('Usuário atualizado com sucesso.'),
+    new TransformaEntidadeParaDTO(ListaUsuarioDTO),
+  )
   async atualizaUsuario(
     @Param('id') id: string,
     @Body() novosDados: AtualizaUsuarioDTO,
-  ) {
-    const usuarioAtualizado = await this.usuarioService.atualizaUsuario(
-      id,
-      novosDados,
-    );
-
-    return {
-      usuario: usuarioAtualizado,
-      messagem: 'usuário atualizado com sucesso',
-    };
+  ): Promise<UsuarioEntity> {
+    return this.usuarioService.atualizaUsuario(id, novosDados);
   }
 
   @Delete('/:id')
+  @UseInterceptors(new PersonalizaRetorno('Usuário deletado com sucesso.'))
   async removeUsuario(@Param('id') id: string) {
-    const usuarioRemovido = await this.usuarioService.deletaUsuario(id);
-
-    return {
-      usuario: usuarioRemovido,
-      messagem: 'usuário removido com suceso',
-    };
+    return this.usuarioService.deletaUsuario(id);
   }
 }
