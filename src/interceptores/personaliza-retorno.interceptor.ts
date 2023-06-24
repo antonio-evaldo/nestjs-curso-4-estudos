@@ -4,18 +4,27 @@ import {
   Injectable,
   NestInterceptor,
 } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { map, Observable } from 'rxjs';
 
 @Injectable()
 export class PersonalizaRetorno implements NestInterceptor {
-  constructor(private readonly mensagem = 'Operação realizada com sucesso.') {}
+  constructor(private reflector: Reflector) {}
 
   intercept(
-    context: ExecutionContext,
+    contexto: ExecutionContext,
     next: CallHandler<any>,
   ): Observable<any> | Promise<Observable<any>> {
-    return next
-      .handle()
-      .pipe(map((dados) => ({ dados, mensagem: this.mensagem })));
+    const mensagem = this.reflector.get<string | undefined>(
+      'mensagem_retorno',
+      contexto.getHandler(),
+    );
+
+    return next.handle().pipe(
+      map((dados) => ({
+        dados,
+        mensagem: mensagem ?? 'Operação realizada com sucesso.',
+      })),
+    );
   }
 }

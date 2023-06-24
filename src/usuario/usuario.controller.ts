@@ -8,6 +8,7 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
+import { MensagemRetorno } from '../decoradores/mensagem-retorno.decorator';
 import { TransformaEntidadeParaDTO } from '../interceptores/transforma-entidade-para-dto.interceptor';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
 import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
@@ -21,6 +22,7 @@ export class UsuarioController {
 
   @Post()
   @UseInterceptors(new TransformaEntidadeParaDTO(ListaUsuarioDTO))
+  @MensagemRetorno('Usuário criado com sucesso.')
   async criaUsuario(
     @Body() dadosDoUsuario: CriaUsuarioDTO,
   ): Promise<UsuarioEntity> {
@@ -35,6 +37,7 @@ export class UsuarioController {
 
   @Put('/:id')
   @UseInterceptors(new TransformaEntidadeParaDTO(ListaUsuarioDTO))
+  @MensagemRetorno('Usuário atualizado com sucesso.')
   async atualizaUsuario(
     @Param('id') id: string,
     @Body() novosDados: AtualizaUsuarioDTO,
@@ -43,6 +46,7 @@ export class UsuarioController {
   }
 
   @Delete('/:id')
+  @MensagemRetorno('Usuário removido com sucesso.')
   async removeUsuario(@Param('id') id: string) {
     return this.usuarioService.deletaUsuario(id);
   }
