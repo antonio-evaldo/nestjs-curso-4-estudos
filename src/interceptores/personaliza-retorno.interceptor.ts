@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { map, Observable } from 'rxjs';
-import { CHAVE_MENSAGEM_RETORNO } from '../decoradores/mensagem-retorno.decorator';
+import { CHAVE_MENSAGEM_RETORNO } from '../decoradores/definir-metadados.decorator';
 
 @Injectable()
 export class PersonalizaRetorno implements NestInterceptor {

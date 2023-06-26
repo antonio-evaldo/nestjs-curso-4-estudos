@@ -8,7 +8,7 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
-import { MensagemRetorno } from '../decoradores/mensagem-retorno.decorator';
+import { MensagemRetorno } from '../decoradores/definir-metadados.decorator';
 import { TransformaEntidadeParaDTO } from '../interceptores/transforma-entidade-para-dto.interceptor';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
 import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
