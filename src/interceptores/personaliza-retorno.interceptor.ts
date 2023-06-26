@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { map, Observable } from 'rxjs';
+import { CHAVE_MENSAGEM_RETORNO } from '../decoradores/mensagem-retorno.decorator';
 
 @Injectable()
 export class PersonalizaRetorno implements NestInterceptor {
@@ -16,7 +17,7 @@ export class PersonalizaRetorno implements NestInterceptor {
     next: CallHandler<any>,
   ): Observable<any> | Promise<Observable<any>> {
     const mensagem = this.reflector.get<string | undefined>(
-      'mensagem_retorno',
+      CHAVE_MENSAGEM_RETORNO,
       contexto.getHandler(),
     );
 

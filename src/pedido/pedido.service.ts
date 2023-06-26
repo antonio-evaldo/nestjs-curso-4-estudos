@@ -25,7 +25,7 @@ export class PedidoService {
     private readonly produtoRepository: Repository<ProdutoEntity>,
   ) {}
 
-  private async buscaUsuario(id) {
+  private async buscaUsuario(id: string) {
     const usuario = await this.usuarioRepository.findOneBy({ id });
 
     if (usuario === null) {
