@@ -9,6 +9,7 @@ import { PedidoModule } from './pedido/pedido.module';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { FiltroDeExcecaoGlobal } from './filtros/filtro-de-excecao-global';
 import { PersonalizaRetornoInterceptor } from './interceptores/personaliza-retorno.interceptor';
+import { AutenticacaoModule } from './autenticacao/autenticacao.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { PersonalizaRetornoInterceptor } from './interceptores/personaliza-retor
       inject: [PostgresConfigService],
     }),
     PedidoModule,
+    AutenticacaoModule,
   ],
   providers: [
     {

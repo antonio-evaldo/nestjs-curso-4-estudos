@@ -35,7 +35,6 @@ export class UsuarioService {
 
     return checkEmail;
   }
-
   async atualizaUsuario(id: string, novosDados: AtualizaUsuarioDTO) {
     const usuario = await this.usuarioRepository.findOneBy({ id });
 
