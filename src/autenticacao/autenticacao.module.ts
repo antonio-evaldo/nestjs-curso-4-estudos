@@ -3,14 +3,20 @@ import { AutenticacaoService } from './autenticacao.service';
 import { AutenticacaoController } from './autenticacao.controller';
 import { UsuarioModule } from '../usuario/usuario.module';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     UsuarioModule,
-    JwtModule.register({
-      global: true,
-      secret: 'SEGREDO AQUI',
-      signOptions: { expiresIn: '60s' },
+    JwtModule.registerAsync({
+      useFactory: (configService: ConfigService) => {
+        return {
+          global: true,
+          secret: configService.get<string>('SEGREDO_JWT'),
+          signOptions: { expiresIn: '60h' },
+        };
+      },
+      inject: [ConfigService],
     }),
   ],
   controllers: [AutenticacaoController],
