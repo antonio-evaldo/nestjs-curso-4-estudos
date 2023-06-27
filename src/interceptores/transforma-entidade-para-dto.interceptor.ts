@@ -8,7 +8,7 @@ import { plainToInstance } from 'class-transformer';
 import { map, Observable } from 'rxjs';
 
 @Injectable()
-export class TransformaEntidadeParaDTO implements NestInterceptor {
+export class EntidadeParaDTOInterceptor implements NestInterceptor {
   constructor(private readonly classeDTO) {}
 
   intercept(

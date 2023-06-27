@@ -9,7 +9,7 @@ import { map, Observable } from 'rxjs';
 import { CHAVE_MENSAGEM_RETORNO } from '../decoradores/definir-metadados.decorator';
 
 @Injectable()
-export class PersonalizaRetorno implements NestInterceptor {
+export class PersonalizaRetornoInterceptor implements NestInterceptor {
   constructor(private reflector: Reflector) {}
 
   intercept(

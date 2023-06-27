@@ -9,7 +9,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { MensagemRetorno } from '../decoradores/definir-metadados.decorator';
-import { TransformaEntidadeParaDTO } from '../interceptores/transforma-entidade-para-dto.interceptor';
+import { EntidadeParaDTOInterceptor } from '../interceptores/transforma-entidade-para-dto.interceptor';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
 import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
@@ -21,7 +21,7 @@ export class UsuarioController {
   constructor(private usuarioService: UsuarioService) {}
 
   @Post()
-  @UseInterceptors(new TransformaEntidadeParaDTO(ListaUsuarioDTO))
+  @UseInterceptors(new EntidadeParaDTOInterceptor(ListaUsuarioDTO))
   @MensagemRetorno('Usuário criado com sucesso.')
   async criaUsuario(
     @Body() dadosDoUsuario: CriaUsuarioDTO,
@@ -30,13 +30,13 @@ export class UsuarioController {
   }
 
   @Get()
-  @UseInterceptors(new TransformaEntidadeParaDTO(ListaUsuarioDTO))
+  @UseInterceptors(new EntidadeParaDTOInterceptor(ListaUsuarioDTO))
   async listUsuarios(): Promise<UsuarioEntity[]> {
     return this.usuarioService.listUsuarios();
   }
 
   @Put('/:id')
-  @UseInterceptors(new TransformaEntidadeParaDTO(ListaUsuarioDTO))
+  @UseInterceptors(new EntidadeParaDTOInterceptor(ListaUsuarioDTO))
   @MensagemRetorno('Usuário atualizado com sucesso.')
   async atualizaUsuario(
     @Param('id') id: string,
