@@ -103,11 +103,7 @@ export class PedidoService {
   }
 
   async obtemPedidosDeUsuario(usuarioId: string) {
-    const usuario = await this.usuarioRepository.findOneBy({ id: usuarioId });
-
-    if (usuario === null) {
-      throw new NotFoundException('O usuário não foi encontrado.');
-    }
+    await this.buscaUsuario(usuarioId);
 
     return this.pedidoRepository.find({
       where: {
