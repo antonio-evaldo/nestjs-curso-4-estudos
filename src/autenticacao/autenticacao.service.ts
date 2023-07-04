@@ -1,6 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsuarioService } from '../usuario/usuario.service';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AutenticacaoService {
@@ -9,9 +10,12 @@ export class AutenticacaoService {
     private jwtService: JwtService,
   ) {}
 
-  async login(email: string, senha: string): Promise<any> {
+  async login(email: string, senhaDigitada: string): Promise<any> {
     const usuario = await this.usuarioService.buscaPorEmail(email);
-    if (usuario.senha !== senha) {
+
+    const usuarioAutenticado = await bcrypt.compare(senhaDigitada, usuario.senha);//compara a senha do
+
+    if (!usuarioAutenticado) {
       throw new UnauthorizedException('A senha digitada está incorreta.');
     }
 
