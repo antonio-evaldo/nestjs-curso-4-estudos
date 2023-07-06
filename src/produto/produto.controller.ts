@@ -33,6 +33,13 @@ export class ProdutoController {
     return this.produtoService.listProdutos();
   }
 
+  @Get('/:id')
+  async listaUm(@Param('id') id: string) {
+    const produtoSalvo = await this.produtoService.listUmProduto(id);
+
+    return produtoSalvo;
+  }
+
   @Put('/:id')
   async atualiza(
     @Param('id') id: string,

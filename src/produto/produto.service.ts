@@ -40,6 +40,19 @@ export class ProdutoService {
     return produtosLista;
   }
 
+  async listUmProduto(id: string) {
+    console.log('Produto sendo buscado do BD...');
+
+    const produtoSalvo = await this.produtoRepository.findOne({
+      where: { id },
+      relations: {
+        imagens: true,
+        caracteristicas: true,
+      },
+    });
+    return produtoSalvo;
+  }
+
   async atualizaProduto(id: string, novosDados: AtualizaProdutoDTO) {
     const entityName = await this.produtoRepository.findOneBy({ id });
 
