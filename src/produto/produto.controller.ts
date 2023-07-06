@@ -6,7 +6,13 @@ import {
   Param,
   Post,
   Put,
+  CacheInterceptor,
+  UseInterceptors,
+  Inject,
 } from '@nestjs/common';
+
+import { CACHE_MANAGER, CacheTTL, CacheKey } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
 import { CriaProdutoDTO } from './dto/CriaProduto.dto';
@@ -14,7 +20,10 @@ import { ProdutoService } from './produto.service';
 
 @Controller('produtos')
 export class ProdutoController {
-  constructor(private readonly produtoService: ProdutoService) {}
+  constructor(
+    private readonly produtoService: ProdutoService,
+    @Inject(CACHE_MANAGER) private gerenciadorDeCache: Cache,
+  ) {}
 
   @Post()
   async criaNovo(@Body() dadosProduto: CriaProdutoDTO) {
@@ -34,6 +43,9 @@ export class ProdutoController {
   }
 
   @Get('/:id')
+  @UseInterceptors(CacheInterceptor)
+  // @CacheKey('teste123')
+  // @CacheTTL(10)
   async listaUm(@Param('id') id: string) {
     const produtoSalvo = await this.produtoService.listUmProduto(id);
 

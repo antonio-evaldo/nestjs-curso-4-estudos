@@ -1,6 +1,7 @@
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CacheModule } from '@nestjs/cache-manager';
 
 import { ProdutoModule } from './produto/produto.module';
 import { UsuarioModule } from './usuario/usuario.module';
@@ -15,6 +16,8 @@ import { AutenticacaoModule } from './autenticacao/autenticacao.module';
   imports: [
     UsuarioModule,
     ProdutoModule,
+    PedidoModule,
+    AutenticacaoModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -22,8 +25,7 @@ import { AutenticacaoModule } from './autenticacao/autenticacao.module';
       useClass: PostgresConfigService,
       inject: [PostgresConfigService],
     }),
-    PedidoModule,
-    AutenticacaoModule,
+    CacheModule.register({ isGlobal: true }),
   ],
   providers: [
     {
