@@ -7,6 +7,7 @@ import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
 
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { SenhaHasheadaPipe } from '../autenticacao/autenticacao.pipe';
 
 @Injectable()
 export class UsuarioService {
@@ -19,14 +20,9 @@ export class UsuarioService {
   async criaUsuario({ senha, ...dadosDoUsuario }: CriaUsuarioDTO) {
     const usuarioEntity = new UsuarioEntity();
 
-    // transformar a senha em senhaHasheada
+    const senhaComHash = await new SenhaHasheadaPipe(this.configService).transform(senha)
 
-    // const sal = 10;
-    const sal = this.configService.get<string>('SAL_SENHA');
-
-    const senhaHasheada = await bcrypt.hash(senha, sal!);
-
-    Object.assign(usuarioEntity, dadosDoUsuario as UsuarioEntity, { senha: senhaHasheada });//propriedade senha recebe a senhaHasehada
+    Object.assign(usuarioEntity, dadosDoUsuario as UsuarioEntity, {senha:senhaComHash});//propriedade senha recebe a senhaHasehada
 
     return this.usuarioRepository.save(usuarioEntity);
   }
