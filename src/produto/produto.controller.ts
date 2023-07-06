@@ -6,17 +6,16 @@ import {
   Param,
   Post,
   Put,
-  CacheInterceptor,
-  UseInterceptors,
   Inject,
 } from '@nestjs/common';
 
-import { CACHE_MANAGER, CacheTTL, CacheKey } from '@nestjs/cache-manager';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 
 import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
 import { CriaProdutoDTO } from './dto/CriaProduto.dto';
 import { ProdutoService } from './produto.service';
+import { ProdutoEntity } from './produto.entity';
 
 @Controller('produtos')
 export class ProdutoController {
@@ -43,11 +42,20 @@ export class ProdutoController {
   }
 
   @Get('/:id')
-  @UseInterceptors(CacheInterceptor)
-  // @CacheKey('teste123')
-  // @CacheTTL(10)
+  // @UseInterceptors(CacheInterceptor)
   async listaUm(@Param('id') id: string) {
+    const produtoDoCache = await this.gerenciadorDeCache.get<ProdutoEntity>(
+      `produto-${id}`,
+    );
+
+    if (produtoDoCache) {
+      console.log('Obtendo produto do cache!');
+      return produtoDoCache;
+    }
+
     const produtoSalvo = await this.produtoService.listUmProduto(id);
+
+    await this.gerenciadorDeCache.set(`produto-${id}`, produtoSalvo);
 
     return produtoSalvo;
   }

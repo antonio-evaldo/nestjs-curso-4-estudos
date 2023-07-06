@@ -25,7 +25,10 @@ import { AutenticacaoModule } from './autenticacao/autenticacao.module';
       useClass: PostgresConfigService,
       inject: [PostgresConfigService],
     }),
-    CacheModule.register({ isGlobal: true }),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 5000,
+    }),
   ],
   providers: [
     {

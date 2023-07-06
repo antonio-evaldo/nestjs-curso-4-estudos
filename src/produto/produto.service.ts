@@ -50,6 +50,11 @@ export class ProdutoService {
         caracteristicas: true,
       },
     });
+
+    if (produtoSalvo === null) {
+      throw new NotFoundException('O produto não foi encontrado');
+    }
+
     return produtoSalvo;
   }
 
