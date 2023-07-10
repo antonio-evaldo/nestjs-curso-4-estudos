@@ -2,6 +2,9 @@ import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
+// import * as redisStore from 'cache-manager-redis-store';
+import { redisStore } from 'cache-manager-redis-yet';
+import type { RedisClientOptions } from 'redis';
 
 import { ProdutoModule } from './produto/produto.module';
 import { UsuarioModule } from './usuario/usuario.module';
@@ -25,9 +28,17 @@ import { AutenticacaoModule } from './autenticacao/autenticacao.module';
       useClass: PostgresConfigService,
       inject: [PostgresConfigService],
     }),
-    CacheModule.register({
-      isGlobal: true,
-      ttl: 5000,
+    CacheModule.registerAsync({
+      useFactory: async () => ({
+        store: await redisStore(),
+        isGlobal: true,
+        ttl: 10000,
+      }),
+      // store: redisStore(),
+      // host: 'localhost',
+      // port: 6379,
+      // isGlobal: true,
+      // ttl: 10000,
     }),
   ],
   providers: [
