@@ -9,7 +9,7 @@ import {
   Inject,
 } from '@nestjs/common';
 
-import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { CacheInterceptor, CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Cache } from 'cache-manager';
 
 import { AtualizaProdutoDTO } from './dto/AtualizaProduto.dto';
@@ -50,14 +50,20 @@ export class ProdutoController {
 
     if (produtoDoCache) {
       console.log('Obtendo produto do cache!');
-      return produtoDoCache;
+      return {
+        mensagem: 'Produto salvo com sucesso.',
+        produtoSalvo: produtoDoCache,
+      };
     }
 
     const produtoSalvo = await this.produtoService.listUmProduto(id);
 
     await this.gerenciadorDeCache.set(`produto-${id}`, produtoSalvo);
 
-    return produtoSalvo;
+    return {
+      mensagem: 'Produto salvo com sucesso.',
+      produtoSalvo,
+    };
   }
 
   @Put('/:id')
