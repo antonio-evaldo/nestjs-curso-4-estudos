@@ -7,7 +7,7 @@ import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
 
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
-import { SenhaHasheadaPipe } from '../autenticacao/autenticacao.pipe';
+import { SenhaHasheadaPipe } from '../autenticacao/hash.pipe';
 
 @Injectable()
 export class UsuarioService {
