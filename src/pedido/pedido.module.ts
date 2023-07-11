@@ -5,13 +5,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PedidoEntity } from './pedido.entity';
 import { UsuarioEntity } from '../usuario/usuario.entity';
 import { ProdutoEntity } from '../produto/produto.entity';
-import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([PedidoEntity, UsuarioEntity, ProdutoEntity]),
   ],
   controllers: [PedidoController],
-  providers: [PedidoService, JwtService],
+  providers: [PedidoService],
 })
 export class PedidoModule {}

@@ -52,7 +52,7 @@ export class ProdutoController {
       console.log('Obtendo produto do cache!');
       return {
         mensagem: 'Produto salvo com sucesso.',
-        produtoSalvo: produtoDoCache,
+        produto: produtoDoCache,
       };
     }
 
@@ -62,7 +62,7 @@ export class ProdutoController {
 
     return {
       mensagem: 'Produto salvo com sucesso.',
-      produtoSalvo,
+      produto: produtoSalvo,
     };
   }
 
