@@ -12,6 +12,7 @@ import { PedidoModule } from './pedido/pedido.module';
 import { FiltroDeExcecaoGlobal } from './filtros/filtro-de-excecao-global';
 import { PersonalizaRetornoInterceptor } from './interceptores/personaliza-retorno.interceptor';
 import { AutenticacaoModule } from './autenticacao/autenticacao.module';
+import { LoggerGlobalInterceptor } from './interceptores/logger-global.interceptor';
 
 @Module({
   imports: [
@@ -45,6 +46,10 @@ import { AutenticacaoModule } from './autenticacao/autenticacao.module';
     {
       provide: APP_INTERCEPTOR,
       useClass: PersonalizaRetornoInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggerGlobalInterceptor,
     },
   ],
 })
