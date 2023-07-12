@@ -14,7 +14,7 @@ import { CriaPedidoDTO } from './dto/CriaPedido.dto';
 import {
   AutenticacaoGuard,
   RequisicaoComUsuario,
-} from '../autenticacao/autenticacao.guard';
+} from '../autenticacao/guards/autenticacao.guard';
 
 @UseGuards(AutenticacaoGuard)
 @Controller('pedidos')

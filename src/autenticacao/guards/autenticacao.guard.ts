@@ -7,7 +7,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
-import { UsuarioPayload } from './autenticacao.service';
+import { UsuarioPayload } from '../autenticacao.service';
 
 export interface RequisicaoComUsuario extends Request {
   usuario: UsuarioPayload;
