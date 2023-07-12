@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
-export class SenhaHasheadaPipe implements PipeTransform {
+export class HashearSenhaPipe implements PipeTransform {
   constructor(private configService: ConfigService) {}
 
   async transform(senha: string): Promise<string> {
