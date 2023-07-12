@@ -8,6 +8,7 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
+import { SenhaHasheadaPipe } from 'src/autenticacao/autenticacao.pipe';
 import { MensagemRetorno } from '../decoradores/definir-metadados.decorator';
 import { EntidadeParaDTOInterceptor } from '../interceptores/transforma-entidade-para-dto.interceptor';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
@@ -24,8 +25,10 @@ export class UsuarioController {
   @UseInterceptors(new EntidadeParaDTOInterceptor(ListaUsuarioDTO))
   @MensagemRetorno('Usuário criado com sucesso.')
   async criaUsuario(
-    @Body() dadosDoUsuario: CriaUsuarioDTO,
+    @Body(SenhaHasheadaPipe) dadosDoUsuario: CriaUsuarioDTO,
   ): Promise<UsuarioEntity> {
+    console.log(dadosDoUsuario);
+
     return this.usuarioService.criaUsuario(dadosDoUsuario);
   }
 

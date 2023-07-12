@@ -1,19 +1,21 @@
 import { PipeTransform, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-import { UsuarioEntity } from 'src/usuario/usuario.entity';
+import { CriaUsuarioDTO } from 'src/usuario/dto/CriaUsuario.dto';
 
 @Injectable()
 export class SenhaHasheadaPipe implements PipeTransform {
-  constructor(
-    @InjectRepository(UsuarioEntity)
-     private configService: ConfigService) {}
+  constructor(private configService: ConfigService) {}
 
-  async transform(senha: string): Promise<string> {
+  async transform({
+    senha,
+    ...dadosDoUsuarioRestantes
+  }: CriaUsuarioDTO): Promise<CriaUsuarioDTO> {
     const sal = this.configService.get<string>('SAL_SENHA');
+
     const senhaHasheada = await bcrypt.hash(senha, sal!);
-    return senhaHasheada;
+
+    return { senha: senhaHasheada, ...dadosDoUsuarioRestantes };
   }
 }
 

@@ -5,24 +5,20 @@ import { Repository } from 'typeorm';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
 import { CriaUsuarioDTO } from './dto/CriaUsuario.dto';
 
-import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
-import { SenhaHasheadaPipe } from '../autenticacao/autenticacao.pipe';
 
 @Injectable()
 export class UsuarioService {
   constructor(
     @InjectRepository(UsuarioEntity)
     private readonly usuarioRepository: Repository<UsuarioEntity>,
-    private configService: ConfigService
+    private configService: ConfigService,
   ) {}
 
-  async criaUsuario({ senha, ...dadosDoUsuario }: CriaUsuarioDTO) {
+  async criaUsuario(dadosDoUsuario: CriaUsuarioDTO) {
     const usuarioEntity = new UsuarioEntity();
 
-    const senhaComHash = await new SenhaHasheadaPipe(this.configService).transform(senha)
-
-    Object.assign(usuarioEntity, dadosDoUsuario as UsuarioEntity, {senha:senhaComHash});//propriedade senha recebe a senhaHasehada
+    Object.assign(usuarioEntity, dadosDoUsuario as UsuarioEntity); //propriedade senha recebe a senhaHasehada
 
     return this.usuarioRepository.save(usuarioEntity);
   }
