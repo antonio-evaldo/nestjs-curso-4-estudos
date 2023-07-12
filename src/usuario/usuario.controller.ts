@@ -25,11 +25,13 @@ export class UsuarioController {
   @UseInterceptors(new EntidadeParaDTOInterceptor(ListaUsuarioDTO))
   @MensagemRetorno('Usuário criado com sucesso.')
   async criaUsuario(
-    @Body(SenhaHasheadaPipe) dadosDoUsuario: CriaUsuarioDTO,
+    @Body() { senha, ...dadosDoUsuario }: CriaUsuarioDTO,
+    @Body('senha', SenhaHasheadaPipe) senhaHasheada: string,
   ): Promise<UsuarioEntity> {
-    console.log(dadosDoUsuario);
-
-    return this.usuarioService.criaUsuario(dadosDoUsuario);
+    return this.usuarioService.criaUsuario({
+      ...dadosDoUsuario,
+      senha: senhaHasheada,
+    });
   }
 
   @Get()
