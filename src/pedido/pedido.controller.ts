@@ -16,12 +16,12 @@ import {
   RequisicaoComUsuario,
 } from '../autenticacao/autenticacao.guard';
 
+@UseGuards(AutenticacaoGuard)
 @Controller('pedidos')
 export class PedidoController {
   constructor(private readonly pedidoService: PedidoService) {}
 
   @Post()
-  @UseGuards(AutenticacaoGuard)
   async criaPedido(
     @Req() req: RequisicaoComUsuario,
     @Body() dadosDoPedido: CriaPedidoDTO,
@@ -36,7 +36,6 @@ export class PedidoController {
   }
 
   @Get()
-  @UseGuards(AutenticacaoGuard)
   async obtemPedidosDeUsuario(@Req() req: RequisicaoComUsuario) {
     const usuarioId = req.usuario.sub;
 
@@ -46,7 +45,6 @@ export class PedidoController {
   }
 
   @Patch(':id')
-  @UseGuards(AutenticacaoGuard)
   atualizaPedido(
     @Param('id') pedidoId: string,
     @Body() dadosDeAtualizacao: AtualizaPedidoDto,
