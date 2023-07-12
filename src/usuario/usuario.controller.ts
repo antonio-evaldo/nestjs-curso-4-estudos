@@ -8,7 +8,7 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
-import { HashearSenhaPipe } from 'src/autenticacao/pipes/HashearSenha.pipe';
+import { HashearSenhaPipe } from 'src/autenticacao/pipes/hashear-senha.pipe';
 import { MensagemRetorno } from '../decoradores/definir-metadados.decorator';
 import { EntidadeParaDTOInterceptor } from '../interceptores/transforma-entidade-para-dto.interceptor';
 import { AtualizaUsuarioDTO } from './dto/AtualizaUsuario.dto';
