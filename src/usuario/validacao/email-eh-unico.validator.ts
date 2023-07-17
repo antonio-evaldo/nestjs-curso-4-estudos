@@ -24,7 +24,7 @@ export class EmailEhUnicoValidator implements ValidatorConstraintInterface {
         return true;
       }
 
-      return false;
+      throw erro;
     }
   }
 }

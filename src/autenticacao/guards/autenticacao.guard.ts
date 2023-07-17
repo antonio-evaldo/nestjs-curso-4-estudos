@@ -38,7 +38,7 @@ export class AutenticacaoGuard implements CanActivate {
 
       requisicao.usuario = payload;
     } catch (erro) {
-      console.log(erro);
+      console.error(erro);
 
       throw new UnauthorizedException('Token JWT inválido.');
     }
